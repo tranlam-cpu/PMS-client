@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pms';
+
+  hero: any = {
+    id: 1,
+    name: 'Windstorm'
+  };
 }
