@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+body {
+    font-family: Neutra,Helvetica,Arial,Sans-serif;
+}
+
+:root {
+    /* text */
+    --commonColor: 0, 0, 0;
+    /* background */
+    --commonBackground:226,231,237;
+
+    --branchBackground: 255, 255, 255;
+}
+
+.dark{
+    --commonColor: 255, 255, 255;
+
+    --commonBackground: 61,59,57;
+
+    --branchBackground: 0, 0, 0;
+}

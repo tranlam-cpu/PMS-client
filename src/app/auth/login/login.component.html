@@ -1,0 +1,56 @@
+
+<div class="flex items-center justify-center bg-commonBackground dark:bg-white h-screen">
+    <div class="mb:pt-0 mb:px-0 bg-branchBackground rounded-lg px-6 py-8 ring-1 ring-slate-900/5  w-4/5 h-4/5 shadow-xl">
+        <div class="text-commonColor flex flex-row h-full items-stretch mb:flex-col">
+            <div class="mb:h-40 mb:overflow-hidden mb:w-full h-full min-w-[50%] w-[50%]">
+                <img src="assets/images/img.png" alt="Branch" class="mb:scale-[-1] mb:h-auto w-full h-full"/>
+            </div>
+            <div class="h-full w-full p-5">
+                <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+                    <h3 class="text-commonColor font-bold text-3xl">Welcome!</h3>
+                    <!-- // Error message -->
+                    <div *ngIf="(errorMessage | async) as error" class="w-full mt-5 p-3 bg-yellow-100 inline-flex items-center">
+                        <i class="pi pi-info-circle text-yellow-800 me-3"></i>
+                        <p class="text-yellow-800">{{error}}</p>
+                    </div>
+
+                    <div class="mt-5">
+                        <label for="email" class="block text-sm font-medium leading-6 text-commonColor">Email</label>
+                        <input id="email" class="w-full rounded-md border-2 bg-branchBackground border-commonColor/20 focus:border-commonColor p-1.5 text-commonColor" type="mail" formControlName="email"/>
+                        <div *ngIf="loginForm.get('email')!.touched && !loginForm.get('email')!.valid">
+                            <div class="text-sm font-semibold underline decoration-pink-500 underline-offset-2" *ngIf="loginForm.get('email')?.hasError('required')">Email is required</div>
+                            <div class="text-sm font-semibold underline decoration-pink-500 underline-offset-2" *ngIf="loginForm.get('email')?.hasError('email')">Email is valid</div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <label for="password" class="block text-sm font-medium leading-6 text-commonColor">Password</label>
+                        <div class="relative w-full">
+                            <input id="password" type="{{typePassword}}" class="w-full rounded-md border-2 bg-branchBackground border-commonColor/20 focus:border-commonColor p-1.5 text-commonColor" formControlName="password"/>
+                            <div class="absolute inset-y-0 right-2 flex items-center">
+                                <button type="button" (click)="onEyeClick()">      
+                                    <i class={{eye}}></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="loginForm.get('password')!.touched && !loginForm.get('password')!.valid">
+                            <div class="text-sm font-semibold underline decoration-pink-500 underline-offset-2" *ngIf="loginForm.get('password')?.hasError('required')">Password is required</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <button class="d-flex items-center bg-commonColor hover:bg-commonColor/80 text-commonBackground w-full p-1.5 rounded-lg disabled:cursor-not-allowed" type="submit" [disabled]="!loginForm.valid">  
+                            <img *ngIf="showLoading | async" src="assets/svgs/loading.svg" class="inline-flex animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24"/>
+                            <span *ngIf="!(showLoading | async)">LOGIN</span>
+                        </button>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
