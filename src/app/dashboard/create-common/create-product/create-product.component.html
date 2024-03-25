@@ -1,0 +1,111 @@
+<div class="card mt-5">
+    <p-toast></p-toast>
+    <div class="flex flex-row items-center group">
+       <a routerLink="/dashboard/pd" class="hover:text-blue-700"><i class="pi pi-arrow-left pe-1 group-hover:animate-ping"></i> trở về trước</a>
+    </div>
+    <h4>Thông tin sản phẩm</h4>
+    <form [formGroup]="formGroup" (ngSubmit)="onHandleCreateSubmit()">
+        <div class="flex flex-row mb:flex-wrap gap-5">
+            <div class="basis-1/2 mb:basis-full">
+                <div class="flex flex-col gap-2">
+                    <label htmlFor="name">tên sản phẩm</label>
+                    <input 
+                        pInputText 
+                        id="name"
+                        formControlName="name" 
+                        autofocus 
+                    />
+                    <small
+                        *ngIf="formGroup.get('name')!.touched && !formGroup.get('name')!.valid; else elseBlock"
+                    >
+                        <span 
+                            class="text-sm font-semibold underline decoration-pink-500 underline-offset-2" 
+                            *ngIf="formGroup.get('name')?.hasError('required')"
+                        >tên sản phẩm không bỏ trống.</span>
+                    </small>
+                    <ng-template #elseBlock><small>&nbsp;</small></ng-template>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label htmlFor="category">danh mục sản phẩm</label>
+                    <p-dropdown 
+                        id="category" 
+                        [options]="(categorys | async) ?? []"  
+                        optionLabel="name"
+                        formControlName="category" 
+                    >
+                    </p-dropdown>
+                    <small></small>
+                </div>
+            </div>
+            <div class="basis-1/2 mb:basis-full">
+                <div class="flex flex-col gap-2">
+                    <label htmlFor="price">giá tiền</label>
+                    <div class="p-inputgroup">
+                        <input 
+                            pInputText 
+                            id="price" 
+                            type="number" 
+                            placeholder="100000"
+                            min="0"
+                            formControlName="price"
+                        />
+                        <span class="p-inputgroup-addon">đ</span>
+                    </div>
+                    <small>&nbsp;</small>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label htmlFor="quantity">số lượng</label>
+                    <div class="p-inputgroup">
+                        <input 
+                            pInputText 
+                            id="quantity" 
+                            type="number" 
+                            placeholder="100000" 
+                            min="0"
+                            formControlName="quantity"
+                        />
+                        <span class="p-inputgroup-addon"><i class="pi pi-file-edit"></i></span>
+                    </div>
+                    <small></small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+            <label htmlFor="description">mô tả sản phẩm</label>
+            <textarea 
+                id="description" 
+                rows="5" 
+                cols="30"
+                pInputTextarea 
+                formControlName="description"
+            ></textarea>
+            <small></small>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label htmlFor="image">hình ảnh sản phẩm</label>
+            <p-fileUpload 
+                id="image" 
+                name="image" 
+                [showUploadButton]="false" 
+                [multiple]="false" accept="image/*" 
+                [maxFileSize]="1000000"
+                (onSelect)="onFileSelect($event)"
+                (onRemove)="onFileRemove($event)"
+            >
+                <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                    </ul>
+                </ng-template>
+            </p-fileUpload>
+        </div>
+
+        <div class="flex w-full mt-5 items-center justify-center">
+            <button pButton type="submit" label="tạo sản phẩm" class="p-button-primary disabled:cursor-not-allowed" [disabled]="!formGroup.valid"></button>
+        </div>
+    </form>
+</div>

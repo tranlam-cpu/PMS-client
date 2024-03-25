@@ -1,0 +1,6 @@
+{
+    "/api": {
+    "target": "https://pms-ochre-gamma.vercel.app/",
+    "secure": false
+    }
+}
