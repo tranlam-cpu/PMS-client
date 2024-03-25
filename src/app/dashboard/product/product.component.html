@@ -1,0 +1,79 @@
+<div class="card mt-5">
+    <p-toast></p-toast>
+    <p-table 
+        #dt
+        [value]="(products | async) ?? []" 
+        [paginator]="true"
+        [loading]="(loading | async ) ?? true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        [tableStyle]="{'min-width': '120rem'}"
+        [(selection)]="selectedProducts" 
+        dataKey="id"
+        [filterDelay]="0"
+        [globalFilterFields]="['name', 'description','price','quantity','category.name']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex items-center justify-between mb:flex-wrap mb:space-y-3">
+                <div>
+                    Quản lý sản phẩm
+                </div>
+                <div class="space-x-[1rem] mb:space-y-3">
+                    <span class="p-input-icon-left mb:w-full">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" class="mb:w-full" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" />
+                    </span>
+                    <button pButton pRipple class="p-button-primery" icon="pi pi-plus"> <a routerLink="/dashboard/pd/create" ><span class="ps-3 text-white">thêm mới</span></a></button>
+                    <button pButton pRipple class="p-button-danger" (click)="onHandleDelete()" [disabled]="!selectedProducts || !selectedProducts.length"  icon="pi pi-trash"></button>
+                </div>  
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>code</th>
+                <th pSortableColumn="name">sản phẩm <p-sortIcon field="name"></p-sortIcon></th>
+                <th>hình ảnh</th>
+                <th>mô tả</th>
+                <th pSortableColumn="price">giá tiền <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="quantity">số lượng <p-sortIcon field="quantity"></p-sortIcon></th>
+                <th pSortableColumn="category">danh mục <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="createdAt">ngày thêm <p-sortIcon field="createdAt"></p-sortIcon></th>
+                <th pSortableColumn="updatedAt">ngày cập nhật <p-sortIcon field="updatedAt"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                </td>
+                <td class="truncate overflow-hidden w-[20px]">{{product.id}} ...</td>
+                <td class="break-words w-[150px]">{{product.name}}</td>
+                <td><img [src]="'https://giatui-web-storage.s3.ap-southeast-2.amazonaws.com/'+product.image" [alt]="product.name" width="80" class="shadow-4"/></td>
+                <td class="break-words w-[150px]">{{product.description}}</td>
+                <td>{{product.price | currency: 'VND'}}</td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.category.name}}</td>
+                <td>{{product.createdAt | date: 'dd/MM/yyyy'}}</td>
+                <td>{{product.updatedAt | date: 'MM/MM/yyyy'}}</td>
+                <td class="space-x-3">
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onHandleDeleteSingle(product.id)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [routerLink]="['edit',product.id]"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{(products | async)?.length || 0}}  products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+
+

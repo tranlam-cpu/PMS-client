@@ -1,0 +1,6 @@
+.ng-star-inserted td{
+    font-size:clamp(1rem, 1.5vw, 1.2rem);
+}
+::ng-deep .p-tag-value{
+    font-size:clamp(1rem, 1.5vw, 1.2rem);
+}

@@ -13,6 +13,7 @@ module.exports = {
       screens:{
         // mobi
         'mb': {'max': '639px'},
+        'tl': {'max': '1024px'}
       }
     },
   },

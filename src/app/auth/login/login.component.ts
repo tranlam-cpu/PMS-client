@@ -4,8 +4,10 @@ import { Store } from '@ngrx/store';
 import { loginStart } from '../state/auth.actions';
 import { AppState } from 'src/app/store/app.state';
 import { getLoading, getMessage } from 'src/app/store/shared/shared.selector';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { setLoading, setMessage } from 'src/app/store/shared/shared.action';
+import { Router } from '@angular/router';
+import { isAuthenticated } from '../state/auth.selector';
 
 
 @Component({
@@ -22,14 +24,23 @@ export class LoginComponent implements OnInit{
   showLoading!: Observable<boolean>
   errorMessage!: Observable<string>
   
-  constructor(private store: Store<AppState>){}
  
+
+  constructor(
+    private store: Store<AppState>,
+    private route: Router
+  ){}
+    
   ngOnInit(): void {
     this.showLoading=this.store.select(getLoading)
-
     this.errorMessage=this.store.select(getMessage)
 
-    
+    this.store.select(isAuthenticated).subscribe(authenticate=>{
+        if(authenticate){
+          return this.route.navigate(['/'])
+        }
+        return true
+    })
 
     this.loginForm = new FormGroup({
       email: new FormControl('',[Validators.required, Validators.email]),
