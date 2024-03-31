@@ -1,0 +1,7 @@
+::ng-deep .p-tag-value {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+::ng-deep .p-tag{
+    min-width: 100px !important;
+}

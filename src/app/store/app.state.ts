@@ -11,6 +11,9 @@ import { SharedState } from "./shared/shared.state";
 import { PRODUCT_STATE_NAME } from "../dashboard/product/state/product.selector";
 import { ProductState } from "../dashboard/product/state/product.state";
 import { ProductReducer } from "../dashboard/product/state/product.reducer";
+import { RENTAL_STATE_NAME } from "../dashboard/rental/state/rental.selector";
+import { RentalState } from "../dashboard/rental/state/rental.state";
+import { RentalReducer } from "../dashboard/rental/state/rental.reducer";
 
 export interface AppState {
     // auth: AuthState
@@ -18,6 +21,7 @@ export interface AppState {
     [SHARED_STATE_NAME]:SharedState
     [CATEGORY_STATE_NAME]: CategoryState
     [PRODUCT_STATE_NAME]: ProductState
+    [RENTAL_STATE_NAME]: RentalState
     router: RouterReducerState
 }
 
@@ -27,5 +31,6 @@ export const appReducer = {
     [SHARED_STATE_NAME]: SharedReducer,
     [CATEGORY_STATE_NAME]: CategoryReducer,
     [PRODUCT_STATE_NAME]: ProductReducer,
+    [RENTAL_STATE_NAME]: RentalReducer,
     router: routerReducer
 }

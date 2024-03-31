@@ -25,9 +25,9 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'UI Chức năng',
                 items: [
-                    { label: 'Danh mục', icon: 'pi pi-fw pi-check-square', routerLink: ['/dashboard/ct'] },
-                    { label: 'Sản phẩm', icon: 'pi pi-fw pi-id-card', routerLink: ['/dashboard/pd']   } ,
-                    { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', routerLink: ['/uikit/ss'] },
+                    { label: 'Quản lý danh mục', icon: 'pi pi-fw pi-check-square', routerLink: ['/dashboard/ct'] },
+                    { label: 'Quản lý sản phẩm', icon: 'pi pi-fw pi-id-card', routerLink: ['/dashboard/pd']   } ,
+                    { label: 'Quản lý cho thuê', icon: 'pi pi-fw pi-bookmark', routerLink: ['/dashboard/rt'] },
                 ]
             },
            

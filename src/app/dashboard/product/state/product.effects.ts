@@ -8,6 +8,7 @@ import { catchError, filter, map, of, switchMap, tap, withLatestFrom } from "rxj
 import { ROUTER_NAVIGATION, RouterNavigatedAction } from "@ngrx/router-store";
 import { getAllProductSelector } from "./product.selector";
 import { Router } from "@angular/router";
+import { updateCategorySuccess } from "../../category/state/category.actions";
 
 
 @Injectable()
@@ -21,10 +22,10 @@ export class ProductEffects{
 
     getAllProduct$=createEffect(()=>{
         return this.action$.pipe(
-            ofType(getAllProduct),
+            ofType(getAllProduct, updateCategorySuccess),
             withLatestFrom(this.store.select(getAllProductSelector)),
             switchMap(([action,products])=>{
-                if(!products.length){
+                if(!products.length || action.type===updateCategorySuccess.type){
                     return this.productService.getAllProduct().pipe(
                         map((data)=>{
                             

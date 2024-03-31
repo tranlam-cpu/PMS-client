@@ -1,0 +1,121 @@
+<div class="card mt-5">
+    <p-toast></p-toast>
+    <p-table 
+        #dt
+        [value]="(rentals | async) ?? []" 
+        [paginator]="true"
+        [loading]="(loading | async ) ?? true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        [tableStyle]="{'min-width': '75rem'}"
+        [(selection)]="selectedRentals" 
+        dataKey="id"
+        [filterDelay]="0"
+        [globalFilterFields]="['id']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex items-center justify-between mb:flex-wrap mb:space-y-3">
+                <div>
+                    Quản lý cho thuê
+                </div>
+                <div class="space-x-[1rem] mb:space-y-3">
+                    <span class="p-input-icon-left mb:w-full">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" class="mb:w-full" (input)="applyFilterGlobal($event, 'contains')" placeholder="Global Search" />
+                    </span>
+                    <button pButton pRipple class="p-button-primery" icon="pi pi-plus"> <a routerLink="/dashboard/rt/create" ><span class="ps-3 text-white">thêm mới</span></a></button>
+                    <button pButton pRipple class="p-button-danger" [disabled]="!rentals || !selectedRentals.length" (click)="onHandleDelete()"  icon="pi pi-trash"></button>
+                </div>  
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 5rem"></th>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>code</th>
+                <th>thời gian thuê</th>
+                <th>thời gian hết hạn</th>
+                <th>thời lượng</th>
+                <th>chi phí</th>
+                <th>trạng thái</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rental let-expanded="expanded">
+            <tr>
+                <td>
+                    <button type="button" pButton pRipple [pRowToggler]="rental" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td>
+                    <p-tableCheckbox [value]="rental"></p-tableCheckbox>
+                </td>
+                <td class="truncate overflow-hidden w-[20px]">{{rental.id}} ...</td>
+                <td>{{rental.start_date | date: 'dd/MM/yyyy hh:mm a'}}</td>
+                <td>{{rental.end_date | date: 'dd/MM/yyyy hh:mm a'}}</td>
+                <td>{{rental.rental_duration}}</td>
+                <td>{{rental.rental_fee | currency: 'VND'}}</td>
+                <td>{{rental.status}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-rental>
+            <tr *ngFor="let product of rental.products">
+                <td colspan="8">
+                    <div class="flex flex-row justify-between">
+                        <div class="flex flex-row">
+                            <div class="w-[180px] h-[100px]">
+                                <img [src]="'https://giatui-web-storage.s3.ap-southeast-2.amazonaws.com/'+product.image" [alt]="product.name" width="100%" style="height: 100%;" class="rounded-md drop-shadow-lg" />
+                            </div>
+                            
+                            <div class="ps-5 flex flex-col justify-around">
+                                <div>
+                                    <h5>{{product.name}}</h5>
+                                </div>
+                                <div>
+                                    <span class="flex items-center gap-2">
+                                        <i class="pi pi-tag"></i>
+                                        <span class="font-semibold">{{product.price | currency: 'VND'}}</span>
+                                    </span>
+                                    <span class="block">
+                                        <p-tag [value]="'số lượng '+product.quantity" severity="success"></p-tag>
+                                    </span>
+                                </div>     
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-center" >
+                            <h4>{{product.price * product.quantity | currency: 'VND'}}</h4>
+                        </div>                   
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <div *ngIf="!rental.products.length; else elseBlock">
+                        không có sản phẩm nào được tìm thấy!
+                    </div>
+                    <ng-template #elseBlock>
+                        <div class="flex flex-row justify-between">
+                            <div>
+                                {{rental.products.length}} sản phẩm
+                            </div>
+                            <div>
+                                <h4>tổng cộng: {{rental.total | currency: 'VND'}}</h4>
+                            </div>
+                        </div>
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{(rentals | async)?.length || 0}}  rentals.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+
+
+
