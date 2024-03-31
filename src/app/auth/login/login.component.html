@@ -16,7 +16,7 @@
 
                     <div class="mt-5">
                         <label for="email" class="block text-sm font-medium leading-6 text-commonColor">Email</label>
-                        <input id="email" class="w-full rounded-md border-2 bg-branchBackground border-commonColor/20 focus:border-commonColor p-1.5 text-commonColor" type="mail" formControlName="email"/>
+                        <input id="email" class="w-full rounded-md border-2 bg-branchBackground border-commonColor/20 focus:border-commonColor p-1.5 text-commonColor" value="lam@gmail.com" type="mail" formControlName="email"/>
                         <div *ngIf="loginForm.get('email')!.touched && !loginForm.get('email')!.valid">
                             <div class="text-sm font-semibold underline decoration-pink-500 underline-offset-2" *ngIf="loginForm.get('email')?.hasError('required')">Email is required</div>
                             <div class="text-sm font-semibold underline decoration-pink-500 underline-offset-2" *ngIf="loginForm.get('email')?.hasError('email')">Email is valid</div>
@@ -25,7 +25,7 @@
                     <div class="mt-5">
                         <label for="password" class="block text-sm font-medium leading-6 text-commonColor">Password</label>
                         <div class="relative w-full">
-                            <input id="password" type="{{typePassword}}" class="w-full rounded-md border-2 bg-branchBackground border-commonColor/20 focus:border-commonColor p-1.5 text-commonColor" formControlName="password"/>
+                            <input id="password" type="{{typePassword}}" class="w-full rounded-md border-2 bg-branchBackground border-commonColor/20 focus:border-commonColor p-1.5 text-commonColor" value="123456" formControlName="password"/>
                             <div class="absolute inset-y-0 right-2 flex items-center">
                                 <button type="button" (click)="onEyeClick()">      
                                     <i class={{eye}}></i>
