@@ -24,7 +24,8 @@ export class AppLayoutComponent implements OnDestroy {
             ct: "Danh mục",
             pd: "Sản phẩm",
             create: "Tạo mới",
-            edit: "Chỉnh sửa"
+            edit: "Chỉnh sửa",
+            rt: "Cho Thuê"
           };
           
           //subscribe to router event change

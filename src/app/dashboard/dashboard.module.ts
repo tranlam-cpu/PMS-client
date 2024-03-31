@@ -22,6 +22,12 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CreateCommonComponent } from './create-common/create-common.component';
 import { CreateProductComponent } from './create-common/create-product/create-product.component';
 import { EditProductComponent } from './product/edit-product/edit-product.component';
+import { RentalComponent } from './rental/rental.component';
+import { DragDropModule } from 'primeng/dragdrop';
+import { PaginatorModule } from 'primeng/paginator';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
+import { CreateRentalComponent } from './create-common/create-rental/create-rental.component';
 const routes: Routes=[
     {
         path: '', children:[
@@ -34,7 +40,12 @@ const routes: Routes=[
                         {path: 'create', component: CreateCommonComponent},
                         {path: 'edit/:id', component: EditProductComponent},
                     ]},
-                    {path: 'ct', component: CategoryComponent}
+                    {path: 'ct', component: CategoryComponent},
+                    {path: 'rt', children:[
+                        {path: '', component: RentalComponent},
+                        {path: 'create', component: CreateCommonComponent}
+                    
+                    ]}
                 ]
             },
         ]
@@ -43,7 +54,7 @@ const routes: Routes=[
 
 
 @NgModule({
-    declarations: [DashboardComponent, ProductComponent, CategoryComponent, CreateCommonComponent, CreateProductComponent, EditProductComponent],
+    declarations: [DashboardComponent, ProductComponent, CategoryComponent, CreateCommonComponent, CreateProductComponent, EditProductComponent, RentalComponent, CreateRentalComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -60,6 +71,10 @@ const routes: Routes=[
         InputTextModule,
         InputTextareaModule,
         FileUploadModule,
+        DragDropModule,
+        PaginatorModule,
+        CalendarModule,
+        InputNumberModule,
         DropdownModule
     ],
 })

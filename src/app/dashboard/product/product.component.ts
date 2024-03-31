@@ -21,7 +21,8 @@ export class ProductComponent implements OnInit{
   products!: Observable<Product[]>;
   selectedProducts!: Product[];
   loading!: Observable<boolean>;
-  
+  idColors: any = [];
+
   constructor(
     private store:Store<AppState>,
     private messageService: MessageService, 
@@ -39,9 +40,21 @@ export class ProductComponent implements OnInit{
   ngOnInit(): void {
     
     this.loading=this.store.select(getLoading)
-    this.products=this.store.select(getAllProductSelector)
+    this.products=this.store.select(getAllProductSelector).pipe(
+      tap((data:any)=>{
+        data.forEach((value:any)=>{
+          if(!this.idColors[value.category?.id]){
+            this.idColors[value.category?.id] = this.getRandomColor();
+          }
+        })
+      })
+    )
+    
     this.store.dispatch(getAllProduct())
     
+
+    
+
     //delete product notify
     this.action$.pipe(
       ofType(deleteProductFail),
@@ -102,5 +115,15 @@ export class ProductComponent implements OnInit{
         this.store.dispatch(setLoading({status:true}))
       }
     });
+  }
+
+
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +16,11 @@ import { CategoryEffects } from './dashboard/category/state/category.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router/custom-serializer';
 import { ProductEffects } from './dashboard/product/state/product.effects';
+import { RentalEffects } from './dashboard/rental/state/rental.effects';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
 
+registerLocaleData(localeVi);
 
 
 
@@ -31,7 +35,7 @@ import { ProductEffects } from './dashboard/product/state/product.effects';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    EffectsModule.forRoot([AuthEffects,CategoryEffects,ProductEffects]),
+    EffectsModule.forRoot([AuthEffects,CategoryEffects,ProductEffects,RentalEffects]),
     StoreModule.forRoot(appReducer),
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
@@ -39,7 +43,11 @@ import { ProductEffects } from './dashboard/product/state/product.effects';
     BrowserAnimationsModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true},
+    {
+      provide: LOCALE_ID,
+      useValue: 'vi-VN' // 'vi-VN' for Vietnam
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,101 @@
+<div class="card mt-5">
+    <div class="flex flex-row items-center group">
+       <a routerLink="/dashboard/rt" class="hover:text-blue-700"><i class="pi pi-arrow-left pe-1 group-hover:animate-ping"></i> trở về trước</a>
+    </div>
+    <h4>Thông tin thuê</h4>
+
+    <div class="card">
+        <form id="rentalForm" [formGroup]="formGroup">
+                   
+            <div class="flex flex-col gap-2">
+                <label htmlFor="category">thời gian thuê <strong class="text-red-400">(bắt đầu - kết thúc)</strong></label>
+                <p-calendar width="100%" dateFormat="dd/mm/yy" selectionMode="range" [readonlyInput]="true" [showButtonBar]="true" formControlName="date"></p-calendar>
+                <small></small>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label htmlFor="rental_fee">chi phí</label>
+                <p-inputNumber [min]="0" formControlName="rental_fee" inputId="rental_fee" mode="currency" currency="VND" locale="vi-VN"> </p-inputNumber>
+                <small></small>
+            </div>
+             
+                
+                      
+        </form>
+    </div>
+
+    <h4>Sản phẩm thuê</h4>
+    
+    <div class="card grid grid-cols-2 tl:grid-cols-1 gap-4">
+        <div class="drag-column">
+            <!-- search -->
+            <input type="text" pInputText [(ngModel)]="searchTerm" placeholder="tìm kiếm sản phẩm">
+            <!-- paginator with for -->
+            <div *ngFor="let product of getFilteredProducts().slice(first, first + rows)">
+                <div class="product-item hover:cursor-move" pDraggable="products" (onDragStart)="dragStart(product)" (onDragEnd)="dragEnd()">
+                    <div class="flex flex-row justify-between border-b-2 border-slate-200">
+                        <div class="flex flex-row p-5">
+                            <div class="w-[120px] h-[70px]">
+                                <img [src]="'https://giatui-web-storage.s3.ap-southeast-2.amazonaws.com/'+product.image" [alt]="product.name" width="100%" style="height: 100%;" class="rounded-md drop-shadow-lg" />
+                            </div>
+                            
+                            <div class="ps-5 flex flex-col justify-around">
+                                <div>
+                                    <h5>{{product.name}}</h5>
+                                </div>
+                                <div>
+                                    <span class="flex items-center gap-2">
+                                        <i class="pi pi-tag"></i>
+                                        <span class="font-semibold">{{product.price | currency: 'VND'}}</span>
+                                    </span>
+                                    <span class="block">
+                                        <p-tag [value]="'số lượng '+product.quantity" severity="success"></p-tag>
+                                    </span>
+                                </div>     
+                            </div>
+                        </div>
+                                         
+                    </div>
+                </div>
+            </div>
+            <!-- paginator -->
+            <p-paginator (onPageChange)="onPageChange($event)" [pageLinkSize]="pageLinkSize" [first]="first" [rows]="rows" [totalRecords]="availableProducts.length" [rowsPerPageOptions]="[1, 5 ,10, 20, 30]"></p-paginator>
+        </div>
+        <div class="col-12 md:col-6 drop-column" pDroppable="products" (onDrop)="showDialog()">
+            <p-table [value]="selectedProducts">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>sản phẩm</th>
+                        <th>giá tiền</th>
+                        <th>số lượng</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>{{product.id}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.quantity}}</td>
+                        <td><button pButton type="button" (click)="onDeleteProductOfRental(product)" class="p-button-warning" label="xoá"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        
+    </div>
+
+    <p-dialog header="nhập số lượng sản phẩm" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+        <div class="space-x-3">
+            <p-inputNumber inputId="quantity" [(ngModel)]="quantityDialog" [min]="1" [max]="maxQuantityDialog"> </p-inputNumber>
+            <button pButton type="button" (click)="onDialogAccept()" label="thêm"></button>
+            <button pButton type="button" (click)="onDialogCancel()" class="p-button-white" label="huỷ"></button>
+        </div>
+    </p-dialog>
+
+    <div class="flex items-center justify-center">
+        <button pButton type="submit" form="rentalForm" label="thêm mới"></button>
+    </div>
+</div>
+

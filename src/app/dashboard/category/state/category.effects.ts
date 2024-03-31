@@ -8,6 +8,7 @@ import { catchError, map, mergeMap, of, switchMap, tap, withLatestFrom } from "r
 import { Category } from "src/app/models/category.model";
 import { Update } from "@ngrx/entity";
 import { getAllCategorySelector } from "./category.selector";
+import { getAllProduct } from "../../product/state/product.action";
 
 
 
@@ -97,7 +98,6 @@ export class CategoryEffects{
             switchMap((action)=>{
                 return this.categoryService.updateCategory(action.category).pipe(
                     map((data)=>{
-                        
                         return updateCategorySuccess({category: {id: action.category.id, changes: {...action.category}}})
                     }),
                     catchError((error)=>{

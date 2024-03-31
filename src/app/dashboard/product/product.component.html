@@ -52,11 +52,11 @@
                 </td>
                 <td class="truncate overflow-hidden w-[20px]">{{product.id}} ...</td>
                 <td class="break-words w-[150px]">{{product.name}}</td>
-                <td><img [src]="'https://giatui-web-storage.s3.ap-southeast-2.amazonaws.com/'+product.image" [alt]="product.name" width="80" class="shadow-4"/></td>
+                <td><img [src]="'https://giatui-web-storage.s3.ap-southeast-2.amazonaws.com/'+product.image" [alt]="product.name" style="height: 80px;" width="120px" class="drop-shadow-lg rounded-md"/></td>
                 <td class="break-words w-[150px]">{{product.description}}</td>
                 <td>{{product.price | currency: 'VND'}}</td>
                 <td>{{product.quantity}}</td>
-                <td>{{product.category.name}}</td>
+                <td><p-tag [style]="{ 'background': idColors[product.category.id]}" value={{product.category.name}}></p-tag></td>
                 <td>{{product.createdAt | date: 'dd/MM/yyyy'}}</td>
                 <td>{{product.updatedAt | date: 'MM/MM/yyyy'}}</td>
                 <td class="space-x-3">
